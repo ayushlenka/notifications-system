@@ -13,8 +13,8 @@ type Processor struct {
 	MaxAttempts int
 	BaseBackoff time.Duration
 	Deliver     func(Notification) error
-	Republish   func(context.Context, Message) error
-	SendToDLQ   func(context.Context, Message) error
+	Republish   func(context.Context, Envelope) error
+	SendToDLQ   func(context.Context, Envelope) error
 }
 
 func ConsumeLoop(ctx context.Context, reader *k.Reader, p *Processor) error {
@@ -25,7 +25,7 @@ func ConsumeLoop(ctx context.Context, reader *k.Reader, p *Processor) error {
 			return err
 		}
 
-		var envlp Message
+		var envlp Envelope
 		if err := json.Unmarshal(m.Value, &envlp); err != nil {
 			MetricsProcessedFail.Inc()
 			log.Printf("bad message: %v", err)

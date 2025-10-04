@@ -7,9 +7,3 @@ type Notification struct {
 	Subject  string `json:"subject,omitempty"`
 	Body     string `json:"body"`
 }
-
-type Message struct {
-	ID           string       `json:"id"`
-	Attempt      int          `json:"attempt"`
-	Notification Notification `json:"notification"`
-}
